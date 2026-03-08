@@ -1,46 +1,66 @@
-<h2>🌸 Наши девочки 🌸</h2>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
 
-<div class="gallery">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<img src="photo1.jpg.jpeg" class="photo">
-<img src="photo2.jpg.jpeg" class="photo">
-<img src="photo3.jpg.jpeg" class="photo">
-<img src="photo4.jpg.jpeg" class="photo">
-<img src="photo5.jpg.jpeg" class="photo">
-<img src="photo6.jpg.jpeg" class="photo">
-
-</div>
-
-<div id="viewer">
-<img id="fullImg">
-</div>
+<title>Приглашение 🌸</title>
 
 <style>
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#ffdce6,#ffeef3);
+text-align:center;
+overflow-x:hidden;
+}
+
+.card{
+background:white;
+padding:40px;
+border-radius:20px;
+max-width:600px;
+margin:40px auto;
+box-shadow:0 10px 40px rgba(0,0,0,0.15);
+}
+
+h1{
+color:#e91e63;
+}
+
+.button{
+background:#ff4da6;
+color:white;
+border:none;
+padding:15px 30px;
+border-radius:30px;
+font-size:18px;
+cursor:pointer;
+margin-top:20px;
+}
 
 .gallery{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
 gap:15px;
-margin-top:30px;
+padding:20px;
 }
 
 .photo{
 width:100%;
-border-radius:18px;
+border-radius:20px;
 cursor:pointer;
 opacity:0;
 transform:translateY(40px);
-transition:all 0.8s ease;
-box-shadow:0 10px 25px rgba(0,0,0,0.25);
+transition:0.8s;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
 .photo.show{
 opacity:1;
 transform:translateY(0);
-}
-
-.photo:hover{
-transform:scale(1.05);
 }
 
 #viewer{
@@ -59,43 +79,187 @@ z-index:1000;
 #viewer img{
 max-width:90%;
 max-height:90%;
-border-radius:15px;
+border-radius:20px;
+}
+
+.flower{
+position:fixed;
+top:-10px;
+font-size:24px;
+animation:fall linear infinite;
+}
+
+@keyframes fall{
+
+to{
+transform:translateY(110vh);
+}
+
 }
 
 </style>
 
+</head>
+
+<body>
+
+<audio autoplay loop>
+
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3b2bbce5a4.mp3?filename=spring-ambient-110722.mp3">
+
+</audio>
+
+<div class="card">
+
+<h1>🌸 Приглашение 🌸</h1>
+
+<p>
+Наши девочки приглашаем вас  
+на прекрасный вечер 🌸
+</p>
+
+<p>
+С вас хорошее настроение  
+и улыбки 💖
+</p>
+
+<p><b>Дата:</b> 9 марта</p>
+<p><b>Время:</b> 17:00</p>
+<p><b>Место:</b> ресторан Serebro</p>
+<p><b>Адрес:</b> Улица Астана 48/1</p>
+
+<h3 id="timer"></h3>
+
+<button class="button" onclick="alert('Ждём вас ❤️')">
+Я приду
+</button>
+
+</div>
+
+<iframe
+width="90%"
+height="300"
+style="border:0;border-radius:20px"
+loading="lazy"
+allowfullscreen
+src="https://maps.google.com/maps?q=Улица%20Астана%2048/1&t=&z=15&ie=UTF8&iwloc=&output=embed">
+</iframe>
+
+<h2>🌸 Наши девочки 🌸</h2>
+
+<div class="gallery">
+
+<img src="photo1.jpg.jpeg" class="photo">
+<img src="photo2.jpg.jpeg" class="photo">
+<img src="photo3.jpg.jpeg" class="photo">
+<img src="photo4.jpg.jpeg" class="photo">
+<img src="photo5.jpg.jpeg" class="photo">
+<img src="photo6.jpg.jpeg" class="photo">
+
+</div>
+
+<div id="viewer">
+<img id="fullImg">
+</div>
+
 <script>
+
+// таймер
+
+let target = new Date("March 9, 2026 17:00:00").getTime();
+
+setInterval(function(){
+
+let now = new Date().getTime();
+let diff = target-now;
+
+let days = Math.floor(diff/(1000*60*60*24));
+let hours = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+let minutes = Math.floor((diff%(1000*60*60))/(1000*60));
+let seconds = Math.floor((diff%(1000*60))/1000);
+
+document.getElementById("timer").innerHTML =
+"До праздника осталось: "
++days+"д "
++hours+"ч "
++minutes+"м "
++seconds+"с ";
+
+},1000);
+
+
+// анимация фото
 
 const photos = document.querySelectorAll('.photo');
 
 function showPhotos(){
+
 const trigger = window.innerHeight * 0.9;
 
 photos.forEach(photo=>{
+
 const top = photo.getBoundingClientRect().top;
 
 if(top < trigger){
 photo.classList.add('show');
 }
+
 });
+
 }
 
 window.addEventListener('scroll',showPhotos);
 showPhotos();
 
 
+// открытие фото
+
 const viewer = document.getElementById("viewer");
 const fullImg = document.getElementById("fullImg");
 
 photos.forEach(img=>{
+
 img.onclick = function(){
-viewer.style.display = "flex";
-fullImg.src = this.src;
+
+viewer.style.display="flex";
+fullImg.src=this.src;
+
 }
+
 });
 
-viewer.onclick = function(){
-viewer.style.display = "none";
+viewer.onclick=function(){
+
+viewer.style.display="none";
+
 }
 
+
+// падающие цветы
+
+function createFlower(){
+
+let flower = document.createElement("div");
+
+flower.className="flower";
+flower.innerHTML="🌸";
+
+flower.style.left=Math.random()*100+"vw";
+flower.style.animationDuration=3+Math.random()*5+"s";
+
+document.body.appendChild(flower);
+
+setTimeout(()=>{
+
+flower.remove()
+
+},8000)
+
+}
+
+setInterval(createFlower,300);
+
 </script>
+
+</body>
+</html>
