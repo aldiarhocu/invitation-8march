@@ -2,37 +2,44 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Приглашение на 8 Марта</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Приглашение</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial;
+font-family:'Segoe UI',sans-serif;
 background:linear-gradient(135deg,#ffd6e7,#fff);
 text-align:center;
 overflow-x:hidden;
 }
 
-.card{
-background:white;
-max-width:600px;
+.container{
+max-width:650px;
 margin:80px auto;
+background:white;
 padding:40px;
 border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.2);
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
 position:relative;
 z-index:2;
 }
 
 h1{
 color:#d63384;
-font-size:36px;
+font-size:38px;
+}
+
+.text{
+font-size:20px;
+margin-top:20px;
+line-height:1.6;
 }
 
 .info{
+margin-top:25px;
 font-size:20px;
-margin-top:20px;
 }
 
 button{
@@ -50,6 +57,15 @@ button:hover{
 background:#e60073;
 }
 
+input{
+padding:10px;
+font-size:16px;
+border-radius:8px;
+border:1px solid #ccc;
+margin-top:10px;
+width:200px;
+}
+
 #countdown{
 font-size:24px;
 margin-top:20px;
@@ -65,15 +81,17 @@ animation:fall linear infinite;
 
 @keyframes fall{
 0%{
-transform:translateY(-10px);
+transform:translateY(-10px) rotate(0deg);
+opacity:1;
 }
 100%{
-transform:translateY(110vh);
+transform:translateY(110vh) rotate(360deg);
+opacity:0.7;
 }
 }
 
 iframe{
-margin-top:20px;
+margin-top:25px;
 border-radius:15px;
 }
 
@@ -83,29 +101,45 @@ border-radius:15px;
 
 <body>
 
-<div class="card">
+<div class="container">
 
 <h1>🌸 Приглашение 🌸</h1>
 
-<p>Приглашаем вас на праздничный вечер</p>
-<p>в честь <b>8 Марта</b></p>
+<div class="text">
+
+<p><b>Наши девочки!</b></p>
+
+<p>
+Приглашаем вас на прекрасный вечер,
+посвящённый празднику <b>8 Марта</b>.
+</p>
+
+<p>
+С вас — хорошее настроение, улыбки и весёлое настроение ✨
+</p>
+
+</div>
 
 <div class="info">
 
 <p><b>Дата:</b> 9 марта</p>
 <p><b>Время:</b> 17:00</p>
 <p><b>Место:</b> ресторан Serebro</p>
-<p><b>Адрес:</b> Улица Астана 48/1</p>
+<p><b>Адрес:</b> Усть-Каменогорск, ул. Астана 48/1</p>
 
 </div>
 
 <div id="countdown"></div>
 
-<button onclick="alert('Отлично! Будем рады вас видеть 🌸')">
-Я приду
-</button>
+<h3>Подтвердите участие 💌</h3>
 
-<br><br>
+<input id="name" placeholder="Ваше имя">
+
+<br>
+
+<button onclick="rsvp()">Я приду</button>
+
+<p id="result"></p>
 
 <iframe
 width="100%"
@@ -115,6 +149,10 @@ src="https://maps.google.com/maps?q=Усть-Каменогорск%20Астан
 
 </div>
 
+<audio id="music" autoplay loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6b2a3b96ff.mp3?filename=spring-ambient-110624.mp3">
+</audio>
+
 <script>
 
 function createFlower(){
@@ -123,16 +161,29 @@ flower.className="flower";
 flower.innerHTML="🌸";
 
 flower.style.left=Math.random()*100+"vw";
-flower.style.animationDuration=(3+Math.random()*5)+"s";
+flower.style.animationDuration=(4+Math.random()*6)+"s";
 
 document.body.appendChild(flower);
 
 setTimeout(()=>{
 flower.remove();
-},8000);
+},10000);
 }
 
-setInterval(createFlower,300);
+setInterval(createFlower,250);
+
+function rsvp(){
+const name=document.getElementById("name").value;
+
+if(name===""){
+alert("Введите имя 😊");
+return;
+}
+
+document.getElementById("result").innerHTML=
+name+" подтвердил(а) участие 🌸";
+
+}
 
 const target=new Date("March 9, 2026 17:00:00").getTime();
 
